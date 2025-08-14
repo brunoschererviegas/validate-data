@@ -1,0 +1,4 @@
+org/acme/dto/Product.class
+org/acme/response/Result.class
+org/acme/GreetingResource.class
+org/acme/resources/ProductResource.class

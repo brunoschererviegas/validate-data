@@ -1,0 +1,67 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    app.quarkus.io/quarkus-version: 3.25.0
+    app.quarkus.io/commit-id: bacfa96c51eea777a6bdbbfd1ed8bf9e385b2df1
+    app.quarkus.io/vcs-uri: https://github.com/brunoschererviegas/validate-data.git
+    app.quarkus.io/build-timestamp: 2025-08-14 - 19:03:36 +0000
+  labels:
+    app.kubernetes.io/name: validate-data
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+  name: validate-data
+spec:
+  ports:
+    - name: http
+      nodePort: 30525
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app.kubernetes.io/name: validate-data
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    app.quarkus.io/quarkus-version: 3.25.0
+    app.quarkus.io/commit-id: bacfa96c51eea777a6bdbbfd1ed8bf9e385b2df1
+    app.quarkus.io/vcs-uri: https://github.com/brunoschererviegas/validate-data.git
+    app.quarkus.io/build-timestamp: 2025-08-14 - 19:03:36 +0000
+  labels:
+    app.kubernetes.io/name: validate-data
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+  name: validate-data
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: validate-data
+      app.kubernetes.io/version: 1.0.0-SNAPSHOT
+  template:
+    metadata:
+      annotations:
+        app.quarkus.io/quarkus-version: 3.25.0
+        app.quarkus.io/commit-id: bacfa96c51eea777a6bdbbfd1ed8bf9e385b2df1
+        app.quarkus.io/vcs-uri: https://github.com/brunoschererviegas/validate-data.git
+        app.quarkus.io/build-timestamp: 2025-08-14 - 19:03:36 +0000
+      labels:
+        app.kubernetes.io/name: validate-data
+        app.kubernetes.io/version: 1.0.0-SNAPSHOT
+    spec:
+      containers:
+        - env:
+            - name: KUBERNETES_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          image: docker.io/brunoschererviegas/validate-data:1.0.0-SNAPSHOT
+          imagePullPolicy: IfNotPresent
+          name: validate-data
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
